@@ -95,7 +95,7 @@ public class SignIn extends HttpServlet {
                                 Cart cart = new Cart();
                                 cart.setProduct(cart_Dto.getProduct());
                                 cart.setQty(cart_Dto.getQty());
-                                cart.setUser(cart_Dto.getUser());
+                                cart.setUser(user);
 
                                 session.save(cart);
                             }

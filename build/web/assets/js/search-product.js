@@ -1,6 +1,12 @@
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
+
+
 async function loadDeatailsForSearchProduct() {
 
-    const response = await fetch("LoadAdvancedSearch");
+    const response = await fetch("LoadAdvancedSearch?firstResult=" + 0);
 
     if (response.ok) {
         const json = await response.json();
@@ -15,9 +21,10 @@ async function loadDeatailsForSearchProduct() {
         loadModels(modelList);
         loadConditions(ConditionsList);
         loadAvailabilities(StatusesList);
+        console.log(json);
         updateProductView(json);
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error Please Try Again Later");
     }
 }
 
@@ -91,6 +98,8 @@ function loadAvailabilities(dataList) {
 
 
 async function  loadProducts(first_result) {
+    
+   
 
     let checkedBrandIds = [];
     let checkedModelIds = [];
@@ -101,7 +110,8 @@ async function  loadProducts(first_result) {
     let modelCheckBoxes = document.querySelectorAll("#as-model-check"); // Select all checkboxes with this ID
     let conditionCheckBoxes = document.querySelectorAll("#as-condition-check"); // Select all checkboxes with this ID
     let availableCheckBoxes = document.querySelectorAll("#as-available-check"); // Select all checkboxes with this ID
-
+    let simple_sort = document.getElementById("simple-sort").value;
+    let search_here = document.getElementById("search-here").value;
 
     loadCheckBoxIds(brandCheckBoxes, checkedBrandIds);
     loadCheckBoxIds(modelCheckBoxes, checkedModelIds);
@@ -123,6 +133,10 @@ async function  loadProducts(first_result) {
     formData.append("checkedAvailableIds", JSON.stringify(checkedAvailableIds));
     formData.append("starting_price", starting_price);
     formData.append("ending_price", ending_price);
+    formData.append("ending_price", ending_price);
+    formData.append("simple_sort", simple_sort);
+    formData.append("search_here", search_here);
+    formData.append("first_result", first_result);
 
 
 
@@ -138,9 +152,17 @@ async function  loadProducts(first_result) {
         checkedModelIds.length = 0;
         checkedConditionIds.length = 0;
         checkedAvailableIds.length = 0;
-        updateProductView(json);
+
+        if (json.success) {
+
+            updateProductView(json);
+        } else {
+            updateProductView(json);
+            notifier.warning("No Product Found");
+        }
+
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error Please Try Again Later");
     }
 
 }
@@ -156,6 +178,10 @@ function loadCheckBoxIds(checkBoxes, checkBoxIDS) {
 
 
 var st_product = document.getElementById("product");
+var st_pagination_button = document.getElementById("st-pagination-button");
+
+
+var currentPage = 0;
 
 function updateProductView(json) {
     let productContainer = document.getElementById("productContainer");
@@ -169,10 +195,42 @@ function updateProductView(json) {
         product_clone.querySelector("#product-model").innerHTML = product.title;
         product_clone.querySelector("#product-price").innerHTML = product.price;
         product_clone.querySelector("#product-img").src = "product_images/" + product.id + "/image1.png";
-        
-        
+
+
         productContainer.appendChild(product_clone)
     });
+
+    //start pagination
+    let st_pagination_container = document.getElementById("st-pagination-container");
+    st_pagination_container.innerHTML = "";
+
+    let product_count = json.allProductCount;
+    const product_per_page = 6;
+
+    let pages = Math.ceil(product_count / product_per_page);
+
+
+    //add page buttons
+    for (let i = 0; i < pages; i++) {
+
+        console.log(i);
+
+        let st_pagination_button_clone = st_pagination_button.cloneNode(true);
+        st_pagination_button_clone.querySelector("#page-number").innerHTML = i + 1;
+
+        st_pagination_button_clone.addEventListener("click", e => {
+            currentPage = i;
+            loadProducts(i * 6);
+        });
+
+        if (i === currentPage) {
+            st_pagination_button_clone.className = "active";
+        } else {
+            st_pagination_button_clone.className = "";
+        }
+
+        st_pagination_container.appendChild(st_pagination_button_clone);
+    }
 
 }
 

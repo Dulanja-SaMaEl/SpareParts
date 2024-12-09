@@ -1,20 +1,25 @@
 // Payment completed. It can be a successful failure.
 payhere.onCompleted = function onCompleted(orderId) {
-    console.log("Payment completed. OrderID:" + orderId);
+    notifier.success("Payment completed. OrderID:" + orderId);
     // Note: validate the payment and show success or failure page to the customer
 };
 
 // Payment window closed
 payhere.onDismissed = function onDismissed() {
     // Note: Prompt user to pay again or show an error page
-    console.log("Payment dismissed");
+    notifier.warning("Payment dismissed");
 };
 
 // Error occurred
 payhere.onError = function onError(error) {
     // Note: show an error page
-    console.log("Error:" + error);
+    notifier.alert("Error:" + error);
 };
+
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
 
 
 const checkout_container = document.getElementById("checkout-container");
@@ -123,10 +128,15 @@ async function checkout() {
     if (response.ok) {
         const json = await response.json();
         console.log(json);
-        payhere.startPayment(json.payhereJson);
-    } else {
+        if (json.success) {
+            payhere.startPayment(json.payhereJson);
 
-        console.log("Server Error");
+        } else {
+            notifier.warning(json.message);
+        }
+    } else {
+        notifier.alert("Server Error");
+       
     }
 
 }

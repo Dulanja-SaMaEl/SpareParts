@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -45,6 +46,9 @@ public class AdvancedSearch extends HttpServlet {
         String checkedModelIdJson = req.getParameter("checkedModelIds");
         String checkedConditionIdJson = req.getParameter("checkedConditionIds");
         String checkedAvailableIdJson = req.getParameter("checkedAvailableIds");
+        String simple_sort = req.getParameter("simple_sort");
+        String search_here = req.getParameter("search_here");
+        int firstResult = Integer.parseInt(req.getParameter("first_result"));
         double starting_price = Double.parseDouble(req.getParameter("starting_price"));
         double ending_price = Double.parseDouble(req.getParameter("ending_price"));
 
@@ -55,6 +59,8 @@ public class AdvancedSearch extends HttpServlet {
         String[] checkedAvailableIds = new Gson().fromJson(checkedAvailableIdJson, String[].class);
 
         Session session = HibernateUtil.getSessionFactory().openSession();
+
+        System.out.println(search_here);
 
         Criteria criteria1 = session.createCriteria(Product.class);
 
@@ -119,11 +125,42 @@ public class AdvancedSearch extends HttpServlet {
             criteria.add(Restrictions.in("id", ids));
             List<ProductStatus> productStatusList = criteria.list();
             criteria1.add(Restrictions.in("productStatus", productStatusList));
-        } 
+        }
+
+        if (!search_here.isEmpty()) {
+            criteria1.add(Restrictions.like("title", "%" + search_here + "%"));
+        }
+
+        if (simple_sort.equals("default")) {
+            criteria1.addOrder(Order.asc("title"));
+
+        } else if (simple_sort.equals("newest")) {
+            criteria1.addOrder(Order.asc("datetime"));
+
+        } else if (simple_sort.equals("oldest")) {
+            criteria1.addOrder(Order.desc("datetime"));
+
+        } else if (simple_sort.equals("highest")) {
+            criteria1.addOrder(Order.desc("price"));
+
+        } else if (simple_sort.equals("lowest")) {
+            criteria1.addOrder(Order.asc("price"));
+
+        }
+
         criteria1.add(Restrictions.ge("price", starting_price));
         criteria1.add(Restrictions.le("price", ending_price));
+        //get all product count
+        responseJson.addProperty("allProductCount", criteria1.list().size());
+
+        criteria1.setFirstResult(firstResult);
+        criteria1.setMaxResults(6);
 
         List<Product> productList = criteria1.list();
+
+        if (!productList.isEmpty()) {
+            responseJson.addProperty("success", true);
+        }
 
         responseJson.add("productList", gson.toJsonTree(productList));
         resp.setContentType("application/json");

@@ -35,9 +35,8 @@ public class LoadAdvancedSearch extends HttpServlet {
         Gson gson = new Gson();
         JsonObject responseJson = new JsonObject();
         responseJson.addProperty("success", false);
-        
+
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
 
         //get models
         Criteria criteria1 = session.createCriteria(Model.class);
@@ -54,11 +53,15 @@ public class LoadAdvancedSearch extends HttpServlet {
         //get product status
         Criteria criteria4 = session.createCriteria(ProductStatus.class);
         List<ProductStatus> productStatusesList = criteria4.list();
-        
-         //get products
+
+        //get products
         Criteria criteria5 = session.createCriteria(Product.class);
+        responseJson.addProperty("allProductCount", criteria5.list().size());
+        criteria5.setFirstResult(0);
+        criteria5.setMaxResults(6);
         List<Model> productList = criteria5.list();
-        
+        //get all product count
+
         responseJson.add("productList", gson.toJsonTree(productList));
         responseJson.add("modelList", gson.toJsonTree(modelList));
         responseJson.add("brandList", gson.toJsonTree(brandList));
@@ -66,11 +69,8 @@ public class LoadAdvancedSearch extends HttpServlet {
         responseJson.add("productStatusesList", gson.toJsonTree(productStatusesList));
         responseJson.addProperty("success", true);
 
-        
         resp.setContentType("application/json");
         resp.getWriter().write(gson.toJson(responseJson));
     }
-
-   
 
 }

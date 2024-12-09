@@ -1,7 +1,8 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
- */
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
+
 var modelList;
 async function loadDetailsForAddProduct() {
 
@@ -19,7 +20,7 @@ async function loadDetailsForAddProduct() {
         loadSelectors("select-condition", productConditionsList, ["id", "name"]);
         loadSelectors("select-status", productStatusesList, ["id", "name"]);
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error Please Try Again Later");
     }
 }
 
@@ -64,7 +65,7 @@ async function addProduct() {
     formData.append("image1", document.getElementById("image1").files[0]);
     formData.append("image2", document.getElementById("image2").files[0]);
     formData.append("image3", document.getElementById("image3").files[0]);
-    
+
 
 
     const response = await fetch("AddProduct", {
@@ -75,8 +76,23 @@ async function addProduct() {
 
     if (response.ok) {
         const json = await response.json();
-        console.log(json);
+        if (json.success) {
+            notifier.success("Product Addedd Successfully");
+            document.getElementById("title").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("select-brand").value = "Select";
+            document.getElementById("select-model").value = "Select";
+            document.getElementById("price").value = "";
+            document.getElementById("qty").value = "";
+            document.getElementById("select-condition").value = "Select";
+            document.getElementById("select-status").value = "Select";
+            document.getElementById("image1").value = "";
+            document.getElementById("image2").value = "";
+            document.getElementById("image3").value = "";
+        } else {
+            notifier.warning(json.message);
+        }
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error Please Try Again Later");
     }
 }

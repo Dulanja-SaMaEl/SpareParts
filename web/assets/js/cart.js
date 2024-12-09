@@ -1,3 +1,8 @@
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
+
 async function loadCartItems() {
     const response = await fetch("LoadCartItems");
     if (response.ok) {
@@ -5,7 +10,7 @@ async function loadCartItems() {
         console.log(json);
         loadCartProductView(json.cartList);
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error Please Try Again Later");
     }
 }
 const cart_product = document.getElementById("cart-product");
@@ -50,7 +55,7 @@ document.body.addEventListener('click', async function (event) {
                 loadCartItems();
             }
         } else {
-            console.log("Server Error");
+            notifier.alert("Server Error Please Try Again Later");
         }
     }
 });

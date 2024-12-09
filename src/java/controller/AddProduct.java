@@ -149,6 +149,8 @@ public class AddProduct extends HttpServlet {
             File file3 = new File(folder, "image3.png");
             InputStream inputStream3 = image3.getInputStream();
             Files.copy(inputStream3, file3.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            
+            responseJson.addProperty("success", true);
 
         }
 

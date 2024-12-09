@@ -1,3 +1,9 @@
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
+
+
 var productQty;
 
 async function loadSingleProduct() {

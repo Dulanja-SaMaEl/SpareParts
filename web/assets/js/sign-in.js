@@ -1,3 +1,9 @@
+// Initialize Awesome Notifications
+const notifier = new AWN({
+    position: "top-right" // Set position to top-right
+});
+
+
 async function signIn() {
 
     const user_dto = {
