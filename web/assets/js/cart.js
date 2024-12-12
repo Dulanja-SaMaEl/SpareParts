@@ -27,7 +27,7 @@ function loadCartProductView(cartList) {
         cart_product_clone.querySelector("#cart-product-img").src = "product_images/" + cartItem.product.id + "/image1.png";
         cart_product_clone.querySelector("#cart-product-name").innerHTML = cartItem.product.title;
         cart_product_clone.querySelector("#cart-product-price").innerHTML = cartItem.product.price;
-        cart_product_clone.querySelector("#remove-item-from-cart").value = cartItem.id;
+        cart_product_clone.querySelector("#remove-item-from-cart").value = cartItem.product.id;
         let numericPrice = parseFloat(cartItem.product.price);
         cart_product_clone.querySelector("#pro1-qunt").value = cartItem.qty;
         let numericqty = Number(cartItem.qty);

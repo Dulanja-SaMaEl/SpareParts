@@ -2,12 +2,15 @@ package model;
 
 public class Validations {
 
-     public static boolean isEmailValid(String email) {
+    public static boolean isEmailValid(String email) {
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
 
     public static Boolean isPasswordValid(String password) {
-        return true;
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+
+        // Check if password matches the regex
+        return password != null && password.matches(regex);
     }
 
     public static boolean isDouble(String text) {

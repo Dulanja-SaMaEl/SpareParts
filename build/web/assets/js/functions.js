@@ -227,7 +227,7 @@
         range: true,
         min: 0,
         max: 1000,
-        values: [50, 300],
+        values: [0, 1000],
         slide: function(event, ui) {
             $sliderAmount.val("$" + ui.values[0] + " - $" + ui.values[1]);
         }

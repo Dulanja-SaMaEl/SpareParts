@@ -51,6 +51,8 @@ public class AdvancedSearch extends HttpServlet {
         int firstResult = Integer.parseInt(req.getParameter("first_result"));
         double starting_price = Double.parseDouble(req.getParameter("starting_price"));
         double ending_price = Double.parseDouble(req.getParameter("ending_price"));
+        
+       
 
         // Parse JSON into an array or list
         String[] checkedBrandIds = new Gson().fromJson(checkedBrandIdsJson, String[].class);
@@ -112,7 +114,7 @@ public class AdvancedSearch extends HttpServlet {
             criteria1.add(Restrictions.in("productCondition", productConditionList));
         } else if (!checkedAvailableIdJson.equals("[]")) {
 
-            System.out.println("Hello");
+            
             //not empty
             Criteria criteria = session.createCriteria(ProductStatus.class);
 

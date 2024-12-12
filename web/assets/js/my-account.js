@@ -8,6 +8,9 @@ async function loadDetailsForAddProduct() {
 
     const response = await fetch("LoadDetailsForAddProduct");
 
+    loadPurchaseHistory();
+    loadOrderHistory();
+
     if (response.ok) {
         const json = await response.json();
         const brandList = json.brandList;
@@ -94,5 +97,110 @@ async function addProduct() {
         }
     } else {
         notifier.alert("Server Error Please Try Again Later");
+    }
+}
+
+async function updatePassword() {
+    let currentPassword = document.getElementById("currentPassword").value;
+    let newPassword = document.getElementById("newPassword").value;
+
+    var formData = new FormData();
+    formData.append("currentPassword", currentPassword);
+    formData.append("newPassword", newPassword);
+
+    const response = await fetch("UpdateUserPassword", {
+        method: "POST",
+        body: formData
+    });
+
+    if (response.ok) {
+        const json = await response.json();
+        if (json.success) {
+            console.log("hello");
+
+            notifier.success(json.message);
+            document.getElementById("currentPassword").value = "";
+            document.getElementById("newPassword").value = "";
+        } else {
+            notifier.warning(json.message);
+        }
+
+    } else {
+        notifier.alert("Server Error");
+    }
+}
+const purchase_Order = document.getElementById("purchaseOrder");
+async  function loadPurchaseHistory() {
+    const response = await fetch("LoadPurchaseHistory");
+
+    if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+
+        if (json.success) {
+
+            const purchase_Order_Container = document.getElementById("purchaseOrderContainer");
+            purchase_Order_Container.innerHTML = "";
+
+            json.purchaseOrderList.forEach(purchaseItem => {
+                let purchase_Order_Clone = purchase_Order.cloneNode(true);
+
+                purchase_Order_Clone.querySelector("#p-product").innerHTML = purchaseItem.product.title;
+                purchase_Order_Clone.querySelector("#p-qty").innerHTML = purchaseItem.qty;
+                purchase_Order_Clone.querySelector("#p-date").innerHTML = purchaseItem.order.datetime;
+                purchase_Order_Clone.querySelector("#p-seller").innerHTML = purchaseItem.product.user.username;
+                purchase_Order_Clone.querySelector("#p-price").innerHTML = purchaseItem.product.price * purchaseItem.qty;
+
+                purchase_Order_Container.appendChild(purchase_Order_Clone);
+            });
+
+        } else {
+            notifier.warning(json.message);
+        }
+
+    } else {
+        notifier.alert("Server Error");
+    }
+}
+
+const orderItem = document.getElementById("orderItem");
+async  function loadOrderHistory() {
+    const response = await fetch("LoadOrdersHistory");
+
+    if (response.ok) {
+        const json = await response.json();
+        console.log(json);
+
+        if (json.success) {
+
+            const order_Item_Container = document.getElementById("orderItemContainer");
+            order_Item_Container.innerHTML = "";
+
+            json.orderList.forEach(order_Item => {
+                let orderItem_Clone = orderItem.cloneNode(true);
+
+                orderItem_Clone.querySelector("#o-product").innerHTML = order_Item.product.title;
+                orderItem_Clone.querySelector("#o-qty").innerHTML = order_Item.qty;
+                orderItem_Clone.querySelector("#o-date").innerHTML = order_Item.order.datetime;
+                orderItem_Clone.querySelector("#o-address").innerHTML = order_Item.order.address.line1;
+                orderItem_Clone.querySelector("#o-status").innerHTML = order_Item.order_status.name;
+                orderItem_Clone.querySelector("#o-price").innerHTML = order_Item.product.price * order_Item.qty;
+
+                order_Item_Container.appendChild(orderItem_Clone);
+            });
+
+        } else {
+            notifier.warning(json.message);
+        }
+
+    } else {
+        notifier.alert("Server Error");
+    }
+}
+
+async function signOut() {
+    const response = await fetch("SignOut");
+    if (response.ok) {
+        window.location = "login.html";
     }
 }

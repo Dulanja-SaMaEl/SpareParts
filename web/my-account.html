@@ -23,18 +23,18 @@
         <link href="assets/css/custom.css" rel="stylesheet">
 
         <title>Autoshop | My Account</title>
-        
-         <!-- Awesome Notifications CSS -->
+
+        <!-- Awesome Notifications CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/awesome-notifications/dist/style.css">
 
         <!-- Awesome Notifications JS -->
         <script src="https://cdn.jsdelivr.net/npm/awesome-notifications/dist/index.var.min.js"></script>
     </head>
     <body onload="loadDetailsForAddProduct();">
-       
-        
-         <!-- Document Wrapper
-                ============================================= -->
+
+
+        <!-- Document Wrapper
+               ============================================= -->
         <div id="wrapper" class="wrapper clearfix">
             <header id="navbar-spy" class="header header-1">
                 <div class="top-bar">
@@ -182,11 +182,14 @@
                                 <a href="#addProduct" aria-controls="addProduct" role="tab" data-toggle="tab">Add Product</a>
                             </li>
                             <li role="presentation">
+                                <a href="#accountDetails" aria-controls="accountDetails" role="tab" data-toggle="tab">Account Details</a>
+                            </li>
+                            <li role="presentation">
                                 <a href="#purchaseHistory" aria-controls="purchaseHistory" role="tab" data-toggle="tab">Purchase History</a>
                             </li>
-                            <!--                            <li role="presentation">
-                                                            <a href="#reviews" aria-controls="reviews" role="tab" data-toggle="tab">reviews(2)</a>
-                                                        </li>-->
+                            <li role="presentation">
+                                <a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Orders</a>
+                            </li>
                         </ul>
 
                         <!-- Tab panes -->
@@ -264,94 +267,84 @@
                                 </table>
                             </div>
                             <!-- #description end -->
-                            <div role="tabpanel" class="tab-pane" id="purchaseHistory">
+                            <div role="tabpanel" class="tab-pane" id="accountDetails">
+                                <h5>Account Details</h5>
+                                <table class="table table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td>Username</td>
+                                            <td><span></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><span></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Password</td>
+                                            <td><input type="password" class="form-control" id="currentPassword" placeholder="Add Current Password"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>New Password</td>
+                                            <td><input type="password" class="form-control" id="newPassword" placeholder="Add New Password"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn btn-primary" onclick="updatePassword();" >Update Password</button></td>
+                                            <td><button class="btn btn-primary" onclick="signOut();" >Logout</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- #Purchase History end -->
+                            <div role="tabpanel" class="tab-pane reviews" id="purchaseHistory">
                                 <h5>Purchase History</h5>
-                                <!--                                <table class="table table-striped">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>Part Number</td>
-                                                                            <td>60-MCTE</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Item Weight</td>
-                                                                            <td>54 pounds</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Product Dimensions</td>
-                                                                            <td>92.8 x 92.8 x 92.8 inches</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Item model number</td>
-                                                                            <td>60-MCTE</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Item Package Quantity</td>
-                                                                            <td>1</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Number of Handles</td>
-                                                                            <td>1</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Batteries Required?</td>
-                                                                            <td>No</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>-->
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Date Time</th>
+                                            <th>Seller</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="purchaseOrderContainer">
+                                        <tr id="purchaseOrder">
+                                            <td id="p-product"></td>
+                                            <td id="p-qty"></td>
+                                            <td id="p-date"></td>
+                                            <td id="p-seller"></td>
+                                            <td >$ <span id="p-price"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- #details end -->
-                            <div role="tabpanel" class="tab-pane reviews" id="reviews">
-                                <ul class="product-review list-unstyled">
-                                    <li class="review-comment">
-                                        <h6>Mostafa Amin</h6>
-                                        <p class="review-date">22/02/2016</p>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                        </div>
-                                        <div class="product-comment">
-                                            <p>Lorem ipsum dolor sit amet, mauris suspendisse viverra eleifend tortor tellus suscipit, tortor aliquet at nulla mus, dignissim neque, nulla neque. Ultrices proin mi urna nibh ut, aenean sollicitudin etiam libero nisl, ultrices ridiculus in magna purus consequuntur, ipsum donec orci ad vitae pede, id odio.</p>
-                                        </div>
-                                    </li>
-                                    <!-- .review-comment end -->
-
-                                    <li class="review-comment">
-                                        <h6>Mohamed Habaza</h6>
-                                        <p class="review-date">21/02/2016</p>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="product-comment">
-                                            <p>Lorem ipsum dolor sit amet, mauris suspendisse viverra eleifend tortor tellus suscipit, tortor aliquet at nulla mus, dignissim neque, nulla neque. Ultrices proin mi urna nibh ut, aenean sollicitudin etiam libero nisl, ultrices ridiculus in magna purus consequuntur, ipsum donec orci ad vitae pede, id odio.</p>
-                                        </div>
-                                    </li>
-                                    <!-- .review-comment end -->
-                                </ul>
-                                <div class="form-review">
-                                    <form>
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name"/>
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email"/>
-                                        <select class="form-control">
-                                            <option selected="" value="Default">Your Rating</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                        <textarea class="form-control" id="review" rows="2" placeholder="Review"></textarea>
-                                        <button type="submit" class="btn btn-primary btn-black btn-block">Post Your review</button>
-                                    </form>
-                                </div>
+                            <!-- #Purchase History  end -->
+                            <!-- #Purchase History end -->
+                            <div role="tabpanel" class="tab-pane reviews" id="orders">
+                                <h5>Orders</h5>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Date Time</th>
+                                            <th>Buyer Address</th>
+                                            <th>Order Status</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderItemContainer">
+                                        <tr id="orderItem">
+                                            <td id="o-product" ></td>
+                                            <td id="o-qty"></td>
+                                            <td id="o-date"></td>
+                                            <td id="o-address"></td>
+                                            <td id="o-status"></td>
+                                            <td >$ <span id="o-price"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- #reviews end -->
                         </div>
                         <!-- #tab-content end -->
                     </div>
@@ -438,7 +431,7 @@
                                 <div class="footer-widget-content">
                                     <p>Lorem ipsum dolor sit amet, adipiscing condimentum tristique vel, eleifend sed turpis. Amet, consectetur adipising elit Integer.</p>
                                     <div class="footer-social">
-                                        <a class="share-facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                        <a class="share-facebook" href="#"><i class="fa fa-facebook" ></i></a>
                                         <a class="share-google-plus" href="#"><i class="fa fa-google-plus"></i></a>
                                         <a class="share-twitter" href="#"><i class="fa fa-twitter"></i></a>
                                         <a class="share-pinterest" href="#"><i class="fa fa-pinterest"></i></a>

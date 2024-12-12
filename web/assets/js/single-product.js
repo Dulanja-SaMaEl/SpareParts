@@ -32,7 +32,7 @@ async function loadSingleProduct() {
 
             document.getElementById("image1_1").src = "product_images/" + product.id + "/image1.png";
             document.getElementById("image2_1").src = "product_images/" + product.id + "/image2.png";
-             document.getElementById("image3_1").src = "product_images/" + product.id + "/image3.png";
+            document.getElementById("image3_1").src = "product_images/" + product.id + "/image3.png";
 
             document.getElementById("add-to-cart").addEventListener("click", (e) => {
                 addToCart(json.product.id, document.getElementById("pro-qunt").value);
@@ -92,8 +92,11 @@ async  function addToCart(p_id, pqty) {
     if (response.ok) {
         const json = await response.json();
         console.log(json);
+        if (json.success) {
+            notifier.success(json.message);
+        }
     } else {
-        console.log("Server Error");
+        notifier.alert("Server Error");
     }
 
 }
