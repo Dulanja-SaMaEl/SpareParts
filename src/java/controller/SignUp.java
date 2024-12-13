@@ -80,7 +80,7 @@ public class SignUp extends HttpServlet {
                         + "        <tr>\n"
                         + "            <td style=\"text-align: center;\">\n"
                         + "                <h2 style=\"color: #333333;\">Verify Your Email</h2>\n"
-                        + "                <p style=\"color: #666666;\">Thank you for signing up with Smart Trade!</p>\n"
+                        + "                <p style=\"color: #666666;\">Thank you for signing up with Spare Parts!</p>\n"
                         + "                <p style=\"color: #666666;\">Please use the verification code below to complete your registration:</p>\n"
                         + "                <h3 style=\"color: #007bff; font-size: 24px; margin: 20px 0;\">" + code + "</h3>\n"
                         + "                <p style=\"color: #666666;\">If you didn’t request this, you can safely ignore this email.</p>\n"

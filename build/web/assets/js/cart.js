@@ -15,8 +15,10 @@ async function loadCartItems() {
 }
 const cart_product = document.getElementById("cart-product");
 const cart_product_checkout_container = document.getElementById("cart-product-checkout-container");
-let subtotal = 0;
+
 function loadCartProductView(cartList) {
+    
+    let subtotal = 0;
 
     const cart_product_container = document.getElementById("cart-product-container");
     cart_product_container.innerHTML = "";
@@ -37,6 +39,7 @@ function loadCartProductView(cartList) {
 
         cart_product_container.appendChild(cart_product_clone);
     });
+    
     cart_product_container.appendChild(cart_product_checkout_container);
     document.getElementById("cart-total").innerHTML = subtotal;
 }

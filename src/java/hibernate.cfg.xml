@@ -20,5 +20,6 @@
         <mapping class="entity.Product_Order" /> 
         <mapping class="entity.Order_item" /> 
         <mapping class="entity.Order_Status" /> 
+        <mapping class="entity.X" /> 
     </session-factory>
 </hibernate-configuration>

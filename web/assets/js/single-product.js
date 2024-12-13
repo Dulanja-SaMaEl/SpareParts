@@ -25,6 +25,7 @@ async function loadSingleProduct() {
             document.getElementById("product-description").innerHTML = product.description;
             document.getElementById("product-status").innerHTML = product.productStatus.name;
             document.getElementById("product-brand").innerHTML = product.model.brand.name;
+            document.getElementById("product-price").innerHTML = product.price;
 
             document.getElementById("image1").src = "product_images/" + product.id + "/image1.png";
             document.getElementById("image2").src = "product_images/" + product.id + "/image2.png";

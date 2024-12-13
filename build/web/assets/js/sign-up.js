@@ -32,9 +32,9 @@ async function signUp() {
         if (json.success) {
             window.location = "index.html";
         } else {
-            document.getElementById("message").innerHTML = json.message;
+            notifier.warning(json.message);
         }
     } else {
-        document.getElementById("message").innerHTML = "Please try agin later";
+        notifier.alert("Server Error Please Try Again Later");
     }
 }

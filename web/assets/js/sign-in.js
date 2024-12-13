@@ -33,11 +33,11 @@ async function signIn() {
 
         } else {
 
-            document.getElementById("message").innerHTML = json.message;
+            notifier.warning(json.message);
 
         }
     } else {
-        document.getElementById("message").innerHTML = "Please try agin later";
+        notifier.alert("Server Error Please Try Again Later");
     }
 }
 
